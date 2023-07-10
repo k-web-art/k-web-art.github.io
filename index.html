@@ -12,44 +12,224 @@
     <style>
       html,
       body {
+        background: #fce9f1;
         height: 100vh;
         margin: 0;
         padding: 0;
-        background: rgb(255, 220, 255);
         font-family: "Courier Prime", monospace;
       }
 
-      .botao-grupo {
+      .main {
         display: flex;
-        flex-direction: column;
         align-items: center;
         justify-content: center;
+        flex-direction: column;
         height: 100%;
+      }
+
+      .lds-default {
+        display: inline-block;
+        position: relative;
+        width: 80px;
+        height: 80px;
+      }
+      .lds-default div {
+        position: absolute;
+        width: 6px;
+        height: 6px;
+        background: #e593c3;
+        border-radius: 50%;
+        animation: lds-default 1.2s linear infinite;
+      }
+      .lds-default div:nth-child(1) {
+        animation-delay: 0s;
+        top: 37px;
+        left: 66px;
+      }
+      .lds-default div:nth-child(2) {
+        animation-delay: -0.1s;
+        top: 22px;
+        left: 62px;
+      }
+      .lds-default div:nth-child(3) {
+        animation-delay: -0.2s;
+        top: 11px;
+        left: 52px;
+      }
+      .lds-default div:nth-child(4) {
+        animation-delay: -0.3s;
+        top: 7px;
+        left: 37px;
+      }
+      .lds-default div:nth-child(5) {
+        animation-delay: -0.4s;
+        top: 11px;
+        left: 22px;
+      }
+      .lds-default div:nth-child(6) {
+        animation-delay: -0.5s;
+        top: 22px;
+        left: 11px;
+      }
+      .lds-default div:nth-child(7) {
+        animation-delay: -0.6s;
+        top: 37px;
+        left: 7px;
+      }
+      .lds-default div:nth-child(8) {
+        animation-delay: -0.7s;
+        top: 52px;
+        left: 11px;
+      }
+      .lds-default div:nth-child(9) {
+        animation-delay: -0.8s;
+        top: 62px;
+        left: 22px;
+      }
+      .lds-default div:nth-child(10) {
+        animation-delay: -0.9s;
+        top: 66px;
+        left: 37px;
+      }
+      .lds-default div:nth-child(11) {
+        animation-delay: -1s;
+        top: 62px;
+        left: 52px;
+      }
+      .lds-default div:nth-child(12) {
+        animation-delay: -1.1s;
+        top: 52px;
+        left: 62px;
+      }
+      @keyframes lds-default {
+        0%,
+        20%,
+        80%,
+        100% {
+          transform: scale(1);
+        }
+        50% {
+          transform: scale(1.5);
+        }
+      }
+
+      #video_play {
+        height: 100%;
+        max-width: 100vw;
+      }
+
+      .loader {
+        gap: 20px;
+      }
+
+      #mensagem {
+        font-size: 20px;
+        color: #e593c3;
+      }
+
+      #video-container {
+        display: none;
+      }
+
+      #loader-container {
+        display: none;
       }
 
       .gato {
         z-index: 1;
         width: 150px;
-        margin-bottom: -8px;
+        margin-bottom: -23px;
         color: #000;
+        pointer-events: none;
       }
 
-      .botao a {
+      .botao {
         text-decoration: none;
         padding: 15px 20px;
         background: #e593c3;
         color: #fff;
         font-size: 20px;
         border-radius: 25px;
+        cursor: pointer;
       }
     </style>
   </head>
   <body>
-    <div class="botao-grupo">
+    <div id="botao-container" class="main">
       <img class="gato" src="gato.svg" alt="Silhueta de Gato" />
-      <div class="botao">
-        <a href="/video.html">Clique aqui</a>
+      <div id="botao" class="botao">
+        Clique aqui
       </div>
     </div>
+
+    <div id="video-container" class="main">
+      <video id="video_play" controls autoplay loop src="videos/1.mp4"></video>
+    </div>
+
+    <div id="loader-container" class="main loader">
+      <div class="lds-default">
+        <div></div>
+        <div></div>
+        <div></div>
+        <div></div>
+        <div></div>
+        <div></div>
+        <div></div>
+        <div></div>
+        <div></div>
+        <div></div>
+        <div></div>
+        <div></div>
+      </div>
+      <div id="mensagem">Carregando...</div>
+    </div>
+
+    <script>
+      let botao = document.getElementById("botao");
+      botao.addEventListener("click", () => {
+        let loaderContainer = document.getElementById("loader-container");
+        let botaoContainer = document.getElementById("botao-container");
+
+        loaderContainer.style.display = "flex";
+        botaoContainer.style.display = "none";
+      });
+
+      let qtdVideos = 12;
+      let video = document.getElementById("video_play");
+      video.src = `videos/${Math.ceil(Math.random() * qtdVideos)}.mp4`;
+
+      let mensagens = [
+        "Aguarde um momento...",
+        "Carregando...",
+        "Por favor, espere...",
+        "Um instante, por favor.",
+        "Em andamento...",
+        "Quase lá...",
+        "Estamos trabalhando nisso...",
+        "Só mais um segundo...",
+        "Em processo...",
+        "Carregando dados...",
+      ];
+
+      setInterval(() => {
+        let mensagem = document.getElementById("mensagem");
+        mensagem.innerHTML =
+          mensagens[Math.floor(Math.random() * mensagens.length)];
+      }, 1000 * 10);
+
+      let tempo = Math.floor(Math.random() * 1000 * 60) + 1000 * 60 * 4;
+      // let tempo = 1000 * 5;
+      setTimeout(() => {
+        let loaderContainer = document.getElementById("loader-container");
+        let videoContainer = document.getElementById("video-container");
+        let video = document.getElementById("video_play");
+
+        loaderContainer.style.display = "none";
+        videoContainer.style.display = "flex";
+        
+        video.currentTime = 0;
+        video.play();
+      }, tempo);
+    </script>
   </body>
 </html>
