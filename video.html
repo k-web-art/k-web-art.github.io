@@ -155,9 +155,9 @@
     </div>
 
     <script>
-      let videos = [1, 2, 3, 4, 5];
+      let qtdVideos = 12;
       let video = document.getElementById("video_play");
-      video.src = `videos/${videos[Math.floor(Math.random() * videos.length)]}.mp4`;
+      video.src = `videos/${Math.ceil(Math.random() * qtdVideos)}.mp4`;
 
       let mensagens = [
         "Aguarde um momento...",
